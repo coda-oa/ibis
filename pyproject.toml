@@ -1,0 +1,13 @@
+[project]
+name = "ibis"
+version = "0.1.0"
+description = "IBIS (Information Budget Insight System) is a web-based portal that aggregates and consolidates data from various institutional source systems and prepares it for reporting."
+requires-python = ">=3.14"
+dependencies = [
+    "django>=6.1,<6.2",
+]
+
+[dependency-groups]
+dev = [
+    "commitizen>=4.19.0",
+]

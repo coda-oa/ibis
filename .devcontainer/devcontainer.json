@@ -1,0 +1,25 @@
+{
+  "name": "ibis-dev-local",
+  "dockerComposeFile": [
+    "../compose.local.yml"
+  ],
+  "init": true,
+  "overrideCommand": false,
+  "service": "django",
+  "remoteUser": "dev-user",
+  "workspaceFolder": "/app",
+  "forwardPorts": [
+    8000
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-python.mypy-type-checker",
+        "charliermarsh.ruff",
+        "batisteo.vscode-django"
+      ]
+    }
+  }
+}
