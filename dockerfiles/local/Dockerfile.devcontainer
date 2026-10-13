@@ -3,14 +3,27 @@ FROM python:3.14-slim-bookworm
 # Install required system dependencies
 RUN apt-get update && apt-get install --no-install-recommends -y \
     build-essential \
+    ca-certificates \
     libpq-dev \
     gettext \
     sudo \
     git \
     bash-completion \
+    gnupg \
+    zsh \
     nano \
     ssh \
     curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js for the Tailwind CLI, including when using plain Docker Compose.
+RUN install -d -m 0755 /etc/apt/keyrings \
+    && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key \
+        | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
+    && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_22.x nodistro main" \
+        > /etc/apt/sources.list.d/nodesource.list \
+    && apt-get update \
+    && apt-get install --no-install-recommends -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
 # Install uv from the official uv image
@@ -18,9 +31,16 @@ COPY --from=ghcr.io/astral-sh/uv:0.12.19 /uv /uvx /bin/
 
 # Create development user
 RUN groupadd --gid 1000 dev-user \
-    && useradd --uid 1000 --gid dev-user --shell /bin/bash --create-home dev-user \
+    && useradd --uid 1000 --gid dev-user --shell /bin/zsh --create-home dev-user \
     && echo "dev-user ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/dev-user \
     && chmod 0440 /etc/sudoers.d/dev-user \
+    && printf '%s\n' \
+        'autoload -Uz vcs_info' \
+        'zstyle ":vcs_info:git:*" formats "[%b]"' \
+        'precmd() { vcs_info }' \
+        'setopt prompt_subst' \
+        "PROMPT='%F{cyan}%~%f %F{green}\${vcs_info_msg_0_}%f %F{yellow}%#%f '" \
+        > /home/dev-user/.zshrc \
     && mkdir -p /app \
     && chown dev-user:dev-user /app
 

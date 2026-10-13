@@ -1,0 +1,12 @@
+{
+  "name": "ibis",
+  "private": true,
+  "scripts": {
+    "css:build": "tailwindcss -i ./static/src/input.css -o ./static/css/tailwind.css",
+    "css:watch": "tailwindcss -i ./static/src/input.css -o ./static/css/tailwind.css --watch=always"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.0.0",
+    "tailwindcss": "^4.0.0"
+  }
+}

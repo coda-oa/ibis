@@ -11,6 +11,6 @@ services:
       - .:/app:z
 
     ports:
-      - "8000:8000"
+      - "8010:8000"
 
-    command: sleep infinity
+    command: bash dockerfiles/local/start

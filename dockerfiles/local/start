@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+npm ci
+uv sync --locked
+
+npm run css:watch &
+tailwind_pid=$!
+uv run python manage.py runserver 0.0.0.0:8000 &
+django_pid=$!
+
+stop_services() {
+    trap - EXIT INT TERM
+    kill "$tailwind_pid" "$django_pid" 2>/dev/null || true
+    wait "$tailwind_pid" "$django_pid" 2>/dev/null || true
+}
+
+trap stop_services EXIT INT TERM
+wait -n "$tailwind_pid" "$django_pid"
