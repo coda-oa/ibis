@@ -1,0 +1,6 @@
+/* IBIS brand colors (Tailwind red-500 base, per static/src/input.css usage) */
+:root > * {
+  --md-primary-fg-color: #ef4444;
+  --md-primary-fg-color--light: #fca5a5;
+  --md-primary-fg-color--dark: #b91c1c;
+}

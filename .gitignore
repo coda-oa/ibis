@@ -13,4 +13,6 @@ htmlcov/
 .vscode/
 node_modules/
 
+site/
+
 *:Zone.Identifier

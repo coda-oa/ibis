@@ -1,6 +1,8 @@
 # ibis
 IBIS (Information Budget Insight System) is a a web-based portal that aggregates and consolidates data from various institutional source systems and prepares it for reporting.
 
+Check out the documentation at <a href="https://coda-oa.github.io/ibis/" target="_blank" rel="noopener noreferrer">https://coda-oa.github.io/ibis/</a>
+
 ## Development
 
 ### Starting the development environment
