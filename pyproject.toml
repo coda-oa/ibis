@@ -20,7 +20,7 @@ dev = [
 [tool.ruff]
 target-version = "py314"
 line-length = 100
-src = ["config", "prototype_a", "prototype_b"]
+src = ["config"]
 extend-exclude = ["migrations"]
 
 [tool.pyrefly]
@@ -28,7 +28,7 @@ project-includes = [
     "**/*.py*",
     "**/*.ipynb",
 ]
-# WIP standalone mini-app skeleton: re-include once `core` imports resolve.
-project-excludes = [
-    "prototype_b/core/**",
-]
+
+[tool.djlint]
+# H031: <meta name="keywords"> is deprecated and ignored by search engines.
+ignore = ["H031"]

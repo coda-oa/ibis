@@ -15,4 +15,6 @@ node_modules/
 
 site/
 
+config/interfaces/http/static/css/tailwind.css
+
 *:Zone.Identifier

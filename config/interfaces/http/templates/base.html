@@ -1,0 +1,78 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description"
+              content="A web portal that aggregates and consolidates institutional information-budget data: information provision, publication production and infrastructure.">
+        <title>
+            {% block title %}
+                {{ page_title | default:"IBIS" }}
+            {% endblock title %}
+        </title>
+        <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
+    </head>
+    <body>
+        <div class="min-h-screen bg-stone-50 text-zinc-900 lg:grid lg:grid-cols-[248px_minmax(0,1fr)]">
+            <aside class="flex flex-col bg-zinc-950 px-5 py-5 text-white lg:min-h-screen lg:px-6 lg:py-7">
+                <a href="{% url 'overview' %}"
+                   class="flex items-center gap-3"
+                   aria-label="IBIS home">
+                    <span class="grid size-10 place-items-center rounded-xl bg-red-600 text-sm font-black tracking-wide text-white">IB</span>
+                    <span>
+                        <span class="block text-lg font-semibold leading-tight">ibis</span>
+                        <span class="block text-xs text-white/60">Information Budget</span>
+                    </span>
+                </a>
+                <div class="mt-9">
+                    <p class="px-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/45">Navigation</p>
+                    <nav class="mt-3 grid grid-cols-2 gap-2 lg:grid-cols-1"
+                         aria-label="IBIS navigation">
+                        {% with item=nav_active %}
+                            <a href="{% url 'overview' %}"
+                               class="flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium {% if item == 'overview' %}bg-red-500/15 text-white{% else %}text-white/70 hover:bg-white/8 hover:text-white{% endif %}">
+                                <span class="grid size-5 place-items-center rounded {% if item == 'overview' %}bg-red-500 text-[10px] font-bold text-white{% else %}border border-white/30 text-[10px]{% endif %}">O</span>
+                                Overview
+                            </a>
+                            <a href="{% url 'module-1' %}"
+                               class="flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium {% if item == 'module-1' %}bg-red-500/15 text-white{% else %}text-white/70 hover:bg-white/8 hover:text-white{% endif %}">
+                                <span class="grid size-5 place-items-center rounded {% if item == 'module-1' %}bg-red-500 text-[10px] font-bold text-white{% else %}border border-white/30 text-[10px]{% endif %}">1</span>
+                                Information provision
+                            </a>
+                            <a href="{% url 'module-2' %}"
+                               class="flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium {% if item == 'module-2' %}bg-red-500/15 text-white{% else %}text-white/70 hover:bg-white/8 hover:text-white{% endif %}">
+                                <span class="grid size-5 place-items-center rounded {% if item == 'module-2' %}bg-red-500 text-[10px] font-bold text-white{% else %}border border-white/30 text-[10px]{% endif %}">2</span>
+                                Publication production
+                            </a>
+                            <a href="{% url 'module-4' %}"
+                               class="flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium {% if item == 'module-4' %}bg-red-500/15 text-white{% else %}text-white/70 hover:bg-white/8 hover:text-white{% endif %}">
+                                <span class="grid size-5 place-items-center rounded {% if item == 'module-4' %}bg-red-500 text-[10px] font-bold text-white{% else %}border border-white/30 text-[10px]{% endif %}">4</span>
+                                Infrastructure &amp; operations
+                            </a>
+                            <a href="{% url 'sources' %}"
+                               class="flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium {% if item == 'sources' %}bg-red-500/15 text-white{% else %}text-white/70 hover:bg-white/8 hover:text-white{% endif %}">
+                                <span class="grid size-5 place-items-center rounded {% if item == 'sources' %}bg-red-500 text-[10px] font-bold text-white{% else %}border border-white/30 text-[10px]{% endif %}">S</span>
+                                Sources
+                            </a>
+                            <a href="{% url 'import' %}"
+                               class="flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium {% if item == 'import' %}bg-red-500/15 text-white{% else %}text-white/70 hover:bg-white/8 hover:text-white{% endif %}">
+                                <span class="grid size-5 place-items-center rounded {% if item == 'import' %}bg-red-500 text-[10px] font-bold text-white{% else %}border border-white/30 text-[10px]{% endif %}">I</span>
+                                Import &amp; data quality
+                            </a>
+                            <a href="{% url 'reports' %}"
+                               class="flex shrink-0 items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium {% if item == 'reports' %}bg-red-500/15 text-white{% else %}text-white/70 hover:bg-white/8 hover:text-white{% endif %}">
+                                <span class="grid size-5 place-items-center rounded {% if item == 'reports' %}bg-red-500 text-[10px] font-bold text-white{% else %}border border-white/30 text-[10px]{% endif %}">R</span>
+                                Reports
+                            </a>
+                        {% endwith %}
+                    </nav>
+                </div>
+            </aside>
+            <main class="min-w-0 px-5 py-6 sm:px-8 sm:py-8 xl:px-12">
+                {% block content %}
+                {% endblock content %}
+            </main>
+        </div>
+    </body>
+</html>
