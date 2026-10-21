@@ -18,3 +18,4 @@ site/
 config/interfaces/http/static/css/tailwind.css
 
 *:Zone.Identifier
+staticfiles/

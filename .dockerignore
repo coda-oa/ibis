@@ -9,3 +9,5 @@ __pycache__
 htmlcov
 dist
 build
+node_modules
+staticfiles

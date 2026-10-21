@@ -18,7 +18,8 @@ dev_addr = "localhost:8020"
 
 nav = [
   { "What is IBIS?" = "index.md" },
-  { "Markdown in 5min" = "markdown.md" },
+  { "Production deployment" = "production.md" },
+#  { "Markdown in 5min" = "markdown.md" },
 ]
 
 extra_css = ["stylesheets/extra.css"]
