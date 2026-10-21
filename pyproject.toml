@@ -5,6 +5,8 @@ description = "IBIS (Information Budget Insight System) is a web-based portal th
 requires-python = ">=3.14"
 dependencies = [
     "django>=6.1,<6.2",
+    "django-environ>=0.14.0",
+    "psycopg>=3.3.6",
 ]
 
 [dependency-groups]

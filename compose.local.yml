@@ -1,3 +1,6 @@
+volumes:
+  ibis_local_postgres_data:
+
 services:
   django:
     build:
@@ -14,3 +17,30 @@ services:
       - "8010:8000"
 
     command: bash dockerfiles/local/start
+
+    env_file:
+      - ./.envs/.local/django.env
+      - ./.envs/.local/postgres.env
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:${POSTGRES_VERSION}
+    container_name: ibis_local_postgres
+
+    env_file:
+      - ./.envs/.local/postgres.env
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - ibis_local_postgres_data:/var/lib/postgresql/data/
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ibis -d ibis"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
