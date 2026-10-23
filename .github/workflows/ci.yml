@@ -1,0 +1,63 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      postgres-version: ${{ steps.env.outputs.postgres-version }}
+    env_file:
+      - .env
+    steps:
+      - uses: actions/checkout@v7
+      - id: env
+        run: echo "postgres-version=${POSTGRES_VERSION}" >> "$GITHUB_OUTPUT"
+  checks:
+    needs: [setup]
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:${{ needs.setup.outputs.postgres-version }}
+        env:
+          POSTGRES_USER: ibis
+          POSTGRES_PASSWORD: ibis-password
+          POSTGRES_DB: ibis
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U ibis"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Install dependencies
+        run: uv sync --frozen
+      - name: Check Python (ruff)
+        run: uv run ruff check .
+      - name: Check templates (djlint)
+        run: uv run djlint --check .
+      - name: Check types (pyrefly)
+        run: uv run pyrefly check
+      - name: Apply migrations
+        env:
+          DATABASE_URL: postgres://ibis:ibis-password@localhost:5432/ibis
+        run: uv run python manage.py migrate
+      - name: Run tests
+        env:
+          DATABASE_URL: postgres://ibis:ibis-password@localhost:5432/ibis
+        run: uv run pytest
+  build-image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build production image
+        run: docker build -f dockerfiles/production/Dockerfile --tag ibis-production:$GITHUB_SHA .
