@@ -11,12 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       postgres-version: ${{ steps.env.outputs.postgres-version }}
-    env_file:
-      - .env
     steps:
       - uses: actions/checkout@v7
       - id: env
-        run: echo "postgres-version=${POSTGRES_VERSION}" >> "$GITHUB_OUTPUT"
+        run: |
+          echo "postgres-version=$(grep -m1 '^POSTGRES_VERSION=' .env | cut -d= -f2)" >> "$GITHUB_OUTPUT"
   checks:
     needs: [setup]
     runs-on: ubuntu-latest
